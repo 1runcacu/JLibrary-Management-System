@@ -6,7 +6,7 @@ import java.awt.event.*;
 
 public abstract class MenuBar extends JMenuBar implements ActionListener{
 	public final String list[][] = {{
-		"系统","保存","退出"
+		"系统","新开UI窗口","保存","退出"
 	},{
 		"关于","版本","更多"
 	}};

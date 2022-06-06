@@ -7,10 +7,11 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Collections;
 
-public class CsvReader{
+public abstract class CsvReader{
 	public String path;
 	public List<ArrayList<String>> rst;
 	public CsvReader(String path){
@@ -48,15 +49,19 @@ public class CsvReader{
         }catch (IOException e){
             System.out.println(e);
         }
-		System.out.println("aaaa");
+	}
+	public void push(String args[]){
+		rst.add((ArrayList<String>) Arrays.asList(args));
 	}
 	public void show(){
 		System.out.println(rst);
 	}
 	public void save(){
 		write(path);
+		saveInfer();
 	}
 	public void save(String path){
 		write(path);
 	}
+	public abstract void saveInfer();
 }

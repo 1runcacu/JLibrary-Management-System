@@ -15,7 +15,7 @@ import javax.swing.event.*;
 import javax.swing.table.*;
 import static javax.swing.SpringLayout.*;
 
-public class SearchField extends JPanel{
+public abstract class SearchField extends JPanel{
 	protected Data src;
 	protected JTable table;
 	private DefaultTableModel model;
@@ -78,6 +78,7 @@ public class SearchField extends JPanel{
 				for (int row = selectedRows.length-1; row >-1;row--) {
 					model.removeRow(selectedRows[row]);
 				}
+				log("系统","成功删除了"+src.name()+"中的"+selectedRows.length+"条数据！");
 			}
 		});
 		btnBox.add(delete);
@@ -103,4 +104,5 @@ public class SearchField extends JPanel{
 			}
 		});
 	}
+	public abstract void log(String kind,String msg);
 }

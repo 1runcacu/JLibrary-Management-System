@@ -40,7 +40,11 @@ public abstract class Data extends CsvReader{
 		}
 	}
 	public void push(String args[]){
-		rst.add((ArrayList<String>) Arrays.asList(args));
+		ArrayList<String> c = new ArrayList<>();
+		for(int i=0;i<args.length;i++){
+			c.add(args[i]);
+		}
+		rst.add(c);
 	}
 	public void delete(int index){
 		rst.remove(index+1);
@@ -72,6 +76,7 @@ public abstract class Data extends CsvReader{
 		refresh();
 		initData();
 	}
-	public abstract void saveAs();
+	public abstract String name();
+	public abstract void logInfer();
 	public abstract String toString(int index);
 }

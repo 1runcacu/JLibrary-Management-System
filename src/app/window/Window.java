@@ -4,6 +4,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.TreeSelectionEvent;
 import app.window.component.*;
 import app.service.*;
+import app.utills.LogsData;
 import app.window.*;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -24,25 +25,55 @@ public class Window extends Frame{
 	protected BookData bookdata;
 	protected PeopleData peopledata;
 	protected BorrowData borrowdata;
-	public Window(){
+	protected LogsData logsD;
+	public Window(LogsData msg){
 		super("图书管理系统");
+		logsD=msg;
 		initElement();
 		initWindow();
 		reFresh();
 	}
 	private void initElement(){
-		bookdata = new BookData();
-		peopledata = new PeopleData();
-		borrowdata = new BorrowData();
-		log = new Logs();
+		log = new Logs(logsD);
+		bookdata = new BookData() {
+			public void logInfer(){
+				log.add("系统","图书信息保存成功！");
+				log.save();
+			}
+		};
+		peopledata = new PeopleData() {
+			public void logInfer(){
+				log.add("系统","人员信息保存成功！");
+				log.save();
+			}
+		};
+		borrowdata = new BorrowData() {
+			public void logInfer(){
+				log.add("系统","借阅信息保存成功！");
+				log.save();
+			}
+		};
+		log.initLog();
 		page1=new Page(title[0]){
 			public void select(ChangeEvent e,String tag){
 				$selIndex(tag);
 			}
 		};
-		page1.book.add(new SearchField(bookdata),BorderLayout.CENTER);
-		page1.people.add(new SearchField(peopledata),BorderLayout.CENTER);
-		page1.borrow.add(new SearchField(borrowdata),BorderLayout.CENTER);
+		page1.book.add(new SearchField(bookdata){
+			public void log(String kind,String msg){
+				log.add(kind,msg);
+			}
+		},BorderLayout.CENTER);
+		page1.people.add(new SearchField(peopledata){
+			public void log(String kind,String msg){
+				log.add(kind,msg);
+			}
+		},BorderLayout.CENTER);
+		page1.borrow.add(new SearchField(borrowdata){
+			public void log(String kind,String msg){
+				log.add(kind,msg);
+			}
+		},BorderLayout.CENTER);
 		
 		page2=new Page(title[1]){
 			public void select(ChangeEvent e,String tag){
@@ -60,6 +91,10 @@ public class Window extends Frame{
 		menubar=new MenuBar(){
 			public void click(ActionEvent e,String evt) {
 				switch(evt){
+					case "新开UI窗口":
+						new Window(logsD);
+						log.add("打开了新的窗口!");
+						break;
 					case "退出":
 						System.exit(DISPOSE_ON_CLOSE);
 					case "版本":
@@ -67,6 +102,11 @@ public class Window extends Frame{
 						break;
 					case "更多":
 						new Toast(win,"更多内容","<html><b>这是要加钱der~</b></html>",200,80);
+						break;
+					case "保存":
+						bookdata.save();
+						peopledata.save();
+						borrowdata.save();
 						break;
 					default:
 						System.out.println(evt);

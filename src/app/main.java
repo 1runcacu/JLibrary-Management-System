@@ -18,6 +18,9 @@ public class main {
 		PeopleData.init();
 		BorrowData.init();
 		LogsData.init();
-		Window win = new Window();
+		LogsData msg = new LogsData() {
+			
+		};
+		new Window(msg);
 	}
 }

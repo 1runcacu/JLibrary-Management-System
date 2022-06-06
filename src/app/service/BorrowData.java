@@ -4,7 +4,7 @@ import app.utills.Check;
 import app.utills.CsvReader;
 import app.utills.Data;
 
-public class BorrowData extends Data{
+public abstract class BorrowData extends Data{
 	private static String src="data/Borrow.csv";
 	public static String title[]= {"操作","人员名称","人员id","书名","书籍id","时间"};
 	public BorrowData(){
@@ -13,11 +13,14 @@ public class BorrowData extends Data{
 	public static void init(){
 		Check.create(src, title);
 	}
-	public void saveAs(){
-		
-	}
 	public String toString(int index){
 		return "";
+	}
+	public void saveInfer(){
+		logInfer();
+	}
+	public String name() {
+		return "借阅信息表";
 	}
 }
 
