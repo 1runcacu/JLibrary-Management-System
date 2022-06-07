@@ -36,6 +36,9 @@ public abstract class Data extends CsvReader{
 //			bufIndex.add(i);
 //		}
 	}
+	public String gain(int i,int j){
+		return rst.get(i).get(j).toString();
+	}
 	public void dataRefresh(){
 		showBuf.clear();
 		for(int i=1;i<rst.size();i++){
@@ -80,6 +83,40 @@ public abstract class Data extends CsvReader{
 	}
 	public void delete(int index){
 		rst.remove(index+1);
+	}
+	public int indexOf(String key,String value){
+		int index=-1;
+		for(int i=0;i<tag.size();i++){
+			if(tag.get(i).toString().equals(key)){
+				index=i;
+				break;
+			}
+		}
+		if(index>-1){
+			for(int i=1;i<rst.size();i++){
+				if(rst.get(i).get(index).toString().equals(value)){
+					return i;
+				}
+			}
+		}
+		return -1;
+	}
+	public ArrayList<String> rowOf(String key,String value){
+		int index=-1;
+		for(int i=0;i<tag.size();i++){
+			if(tag.get(i).toString().equals(key)){
+				index=i;
+				break;
+			}
+		}
+		if(index>-1){
+			for(int i=1;i<rst.size();i++){
+				if(rst.get(i).get(index).toString().equals(value)){
+					return rst.get(i);
+				}
+			}
+		}
+		return null;
 	}
 	public void search(String key){
 		String words[]=key.split("\\s+");

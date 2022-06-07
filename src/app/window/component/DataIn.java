@@ -16,6 +16,7 @@ import app.utills.Data;
 public abstract class DataIn extends JPanel{
 	protected Data src;
 	protected JPanel body;
+	protected JButton add;
 	public DataIn(Data src,String tag){
 		super(new BorderLayout());
 		this.src=src;
@@ -24,7 +25,7 @@ public abstract class DataIn extends JPanel{
 	private void $init(String tag){
 		body = new JPanel(new VFlowLayout(VFlowLayout.LEFT));
 		JPanel box = new JPanel(new FlowLayout(FlowLayout.RIGHT,10,0));
-		JButton add = new JButton(tag);
+		add = new JButton(tag);
 		JButton savebtn = new JButton("±£´æ");
 		box.add(add);
 		box.add(savebtn);
@@ -58,5 +59,8 @@ public abstract class DataIn extends JPanel{
 	}
 	public void save(){
 		src.save();
+	}
+	public void reName(String name) {
+		add.setText(name);
 	}
 }

@@ -34,7 +34,11 @@ public class PeopleIn extends DataIn{
 				}
 			}
 		};
-		p3 = new InputBox("ΩÈ…‹");
+		p3 = new InputBox("ΩÈ…‹"){
+			public void check(String str){
+				tik("pass","°Ã ΩÈ…‹ø…“‘≤ª–¥≈∂~");
+			}
+		};
 		body.add(p1);
 		body.add(p2);
 		body.add(p3);

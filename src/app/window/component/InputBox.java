@@ -87,6 +87,7 @@ public class InputBox extends JPanel{
 		}
 	}
 	public void $check(String str){
+		ref(str);
 		if(str.equals(tag)){
 			return;
 		}else if(str.equals("")){
@@ -102,7 +103,7 @@ public class InputBox extends JPanel{
 		}
 	}
 	public static boolean legalKey(String str){
-		String pattern = "^(?!_)(?!.*?_$)[a-zA-Z0-9_~!£¡¡¤-£¬..#@?¡¢£¿\u4e00-\u9fa5]+$";
+		String pattern = "^(?!_)(?!.*?_$)[a-zA-Z0-9_~!£¡¡¤-£¬..|#@?¡¢£¿\u4e00-\u9fa5]+$";
 		return Pattern.matches(pattern, str);
 	}
 	public static boolean legalName(String str){
@@ -122,5 +123,11 @@ public class InputBox extends JPanel{
 			return "";
 		}
 		return data;
+	}
+	public void cycle() {
+		$check(words.getText());
+	}
+	public void ref(String data) {
+		
 	}
 }

@@ -18,10 +18,11 @@ import javax.swing.table.*;
 import static javax.swing.SpringLayout.*;
 
 public abstract class SearchField extends JPanel{
-	protected Data src;
+	public Data src;
 	protected JTable table;
 	private DefaultTableModel model;
 	private TableRowSorter sorter;
+	public int flag=0;
 	public SearchField(Data src){
 		super(new BorderLayout());
 		this.src=src;
@@ -94,30 +95,46 @@ public abstract class SearchField extends JPanel{
 		model.addTableModelListener(new TableModelListener(){
 			public void tableChanged(TableModelEvent e){
 				int type = e.getType();
-				int row = -1,col = e.getColumn();
+				int row = -1,col = -1;
 				try {
+					col=e.getColumn();
 					row = sorter.convertRowIndexToModel(table.getSelectedRow());
 		        } catch (Exception error){
 //		            error.printStackTrace();
 		        }
-				switch(type){
-					case TableModelEvent.INSERT:
-						row=model.getRowCount()-1;
-						src.push(model.getDataVector().get(row));
-						log("系统",src.name()+"中成功录入了"+"一条数据");
-						break;
-					case TableModelEvent.UPDATE:
-						String value = (String)model.getValueAt(row,col);
-						src.setValue(row,col,value);
-						log("系统","更新"+src.name()+"中的"+row+"行 "+col+"列为:'"+value+"'");
-						table.clearSelection();
-						break;
-					case TableModelEvent.DELETE:
-						src.delete(row);
-						break;
+				if(flag==1){
+					flag=0;
+					row = e.getFirstRow();
+					col=e.getColumn();
 				}
+				try {
+					switch(type){
+						case TableModelEvent.INSERT:
+							row=model.getRowCount()-1;
+							src.push(model.getDataVector().get(row));
+							log("系统",src.name()+"中成功录入了"+"一条数据");
+							break;
+						case TableModelEvent.UPDATE:
+							String old = src.gain(row+1, col);
+							String value = (String)model.getValueAt(row,col);
+							if(!old.equals(value)){
+								src.setValue(row,col,value);
+								log("系统","更新"+src.name()+"中的"+row+"行 "+col+"列为:'"+value+"'");
+							}
+							table.clearSelection();
+							break;
+						case TableModelEvent.DELETE:
+							src.delete(row);
+							break;
+					}
+		        } catch (Exception error){
+		        }
 			}
 		});
+	}
+	public void setValue(int i,int j,String value){
+		flag=1;
+		model.setValueAt(value, i, j);
 	}
 	public void push(String data[]){
 		model.addRow(data);

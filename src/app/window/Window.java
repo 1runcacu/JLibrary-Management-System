@@ -103,7 +103,7 @@ public class Window extends Frame{
 				peoplefield.push(args);
 			}
 		};
-		borrowin = new BorrowIn(borrowdata){
+		borrowin = new BorrowIn(borrowdata,bookfield,peoplefield){
 			public void push(String args[]){
 				borrowfield.push(args);
 			}
