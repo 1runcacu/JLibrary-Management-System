@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -22,6 +23,11 @@ public abstract class CsvReader{
 		rst = new ArrayList<>();
 		read();
 	}
+	private String reset(String str) throws UnsupportedEncodingException {
+//		System.out.println(str);
+		return str;
+//		return new String(str.getBytes(),"UTF-8");
+	}
 	protected void read(){
 		String line = "";
         String cvsSplitBy = ",";
@@ -29,7 +35,7 @@ public abstract class CsvReader{
 			BufferedReader br = new BufferedReader(new FileReader(path));
             while ((line = br.readLine()) != null){;
                 ArrayList<String> data = new ArrayList<String>();
-                Collections.addAll(data, line.split(cvsSplitBy));
+                Collections.addAll(data, reset(line).split(cvsSplitBy));
                 rst.add(data);
             }
         } catch (IOException e) {

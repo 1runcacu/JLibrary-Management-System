@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.lang.String ;
 
-public abstract class LogsData extends Data{
+public class LogsData extends Data{
 	private static String src="data/Logs.csv";
 	public static String title[]= {"时间","类型","消息"};
 	public LogsData(){
@@ -18,10 +18,13 @@ public abstract class LogsData extends Data{
 	public void load(){
 		
 	}
-	public void Log(String kind,String msg){
+	public static String getTime(){
 		Date date=new Date(System.currentTimeMillis());
 		SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String args[]= {format.format(date),kind,msg};
+		return format.format(date);
+	}
+	public void Log(String kind,String msg){
+		String args[]= {getTime(),kind,msg};
 		push(args);
 	}
 	public void Log(String msg){
@@ -34,13 +37,17 @@ public abstract class LogsData extends Data{
 		ArrayList<String> c = rst.get(index);
 		return c.get(0)+"--"+c.get(1)+":    "+c.get(2);
 	}
-	public void logInfer(){
+	public void logShow(String kind,String msg) {
+		
+	}
+	public void logSave() {
 		
 	}
 	public void saveInfer(){
-		logInfer();
+		
 	}
 	public String name() {
 		return "日志表";
 	}
+	public void logAdd(String args[]){}
 }

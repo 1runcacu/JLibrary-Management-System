@@ -4,6 +4,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.TreeSelectionEvent;
 import app.window.component.*;
 import app.service.*;
+import app.utills.Data;
 import app.utills.LogsData;
 import app.window.*;
 import java.awt.BorderLayout;
@@ -22,10 +23,10 @@ public class Window extends Frame{
 	protected Page page1,page2;
 	protected Index index;
 	protected MenuBar menubar;
-	protected BookData bookdata;
-	protected PeopleData peopledata;
-	protected BorrowData borrowdata;
+	protected Data bookdata,peopledata,borrowdata;
 	protected LogsData logsD;
+	protected DataIn bookin,peoplein,borrowin;
+	protected SearchField bookfield,peoplefield,borrowfield;
 	public Window(LogsData msg){
 		super("图书管理系统");
 		logsD=msg;
@@ -35,51 +36,87 @@ public class Window extends Frame{
 	}
 	private void initElement(){
 		log = new Logs(logsD);
-		bookdata = new BookData() {
-			public void logInfer(){
-				log.add("系统","图书信息保存成功！");
+		log.initLog();
+		bookdata = new BookData(){
+			public void logShow(String kind,String msg) {
+				log.add(kind,msg);
+			}
+			public void logSave() {
 				log.save();
+			}
+			public void showlog(String msg) {
+				log.add(msg);
 			}
 		};
 		peopledata = new PeopleData() {
-			public void logInfer(){
-				log.add("系统","人员信息保存成功！");
+			public void logShow(String kind,String msg) {
+				log.add(kind,msg);
+			}
+			public void logSave() {
 				log.save();
+			}
+			public void showlog(String msg) {
+				log.add(msg);
 			}
 		};
 		borrowdata = new BorrowData() {
-			public void logInfer(){
-				log.add("系统","借阅信息保存成功！");
+			public void logShow(String kind,String msg) {
+				log.add(kind,msg);
+			}
+			public void logSave() {
 				log.save();
 			}
+			public void showlog(String msg) {
+				log.add(msg);
+			}
 		};
-		log.initLog();
 		page1=new Page(title[0]){
 			public void select(ChangeEvent e,String tag){
 				$selIndex(tag);
 			}
 		};
-		page1.book.add(new SearchField(bookdata){
+		bookfield=new SearchField(bookdata){
 			public void log(String kind,String msg){
 				log.add(kind,msg);
 			}
-		},BorderLayout.CENTER);
-		page1.people.add(new SearchField(peopledata){
+		};
+		peoplefield=new SearchField(peopledata){
 			public void log(String kind,String msg){
 				log.add(kind,msg);
 			}
-		},BorderLayout.CENTER);
-		page1.borrow.add(new SearchField(borrowdata){
+		};
+		borrowfield=new SearchField(borrowdata){
 			public void log(String kind,String msg){
 				log.add(kind,msg);
 			}
-		},BorderLayout.CENTER);
-		
+		};
+		page1.book.add(bookfield,BorderLayout.CENTER);
+		page1.people.add(peoplefield,BorderLayout.CENTER);
+		page1.borrow.add(borrowfield,BorderLayout.CENTER);
+		bookin = new BookIn(bookdata){
+			public void push(String args[]){
+				bookfield.push(args);
+			}
+		};
+		peoplein = new PeopleIn(peopledata){
+			public void push(String args[]){
+				peoplefield.push(args);
+			}
+		};
+		borrowin = new BorrowIn(borrowdata){
+			public void push(String args[]){
+				borrowfield.push(args);
+			}
+		};
 		page2=new Page(title[1]){
 			public void select(ChangeEvent e,String tag){
 				$selIndex(tag);
 			}
 		};
+		page2.book.add(bookin,BorderLayout.CENTER);
+		page2.people.add(peoplein,BorderLayout.CENTER);
+		page2.borrow.add(borrowin,BorderLayout.CENTER);
+		
 		index = new Index(new DefaultMutableTreeNode("选项卡")){
 			public void select(TreeSelectionEvent e,String str){
 				$selLeaf(str);
@@ -101,7 +138,7 @@ public class Window extends Frame{
 						new Toast(win,"版本信息","<html><b>Version 1.0</b><br/>作者:曾柏滔</html>",30,120);
 						break;
 					case "更多":
-						new Toast(win,"更多内容","<html><b>这是要加钱der~</b></html>",200,80);
+						new Toast(win,"更多内容","<html><b>别想让我再加功能！<br/>哼！不然要加钱der~</b></html>",200,160);
 						break;
 					case "保存":
 						bookdata.save();

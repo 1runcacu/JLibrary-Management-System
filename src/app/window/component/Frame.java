@@ -53,7 +53,7 @@ public class Frame extends JFrame{
 	}
 	private void setForm(){
 //		setExtendedState(JFrame.MAXIMIZED_BOTH);
-		setMinimumSize(new Dimension(600,450));
+		setMinimumSize(new Dimension(630,450));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);//EXIT_ON_CLOSE
 	}
 	public void reFresh(){

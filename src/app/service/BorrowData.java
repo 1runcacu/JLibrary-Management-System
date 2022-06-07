@@ -16,11 +16,12 @@ public abstract class BorrowData extends Data{
 	public String toString(int index){
 		return "";
 	}
-	public void saveInfer(){
-		logInfer();
-	}
 	public String name() {
 		return "ΩË‘ƒ–≈œ¢±Ì";
+	}
+	public void logAdd(String args[]){}
+	public boolean error(String args[]){
+		return false;
 	}
 }
 
