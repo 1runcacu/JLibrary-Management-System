@@ -96,16 +96,19 @@ public class Window extends Frame{
 		bookin = new BookIn(bookdata){
 			public void push(String args[]){
 				bookfield.push(args);
+				showMsg("《"+args[0]+"》已入库"+args[2]+"本~");
 			}
 		};
 		peoplein = new PeopleIn(peopledata){
 			public void push(String args[]){
 				peoplefield.push(args);
+				showMsg("新增用户"+args[0]+",id:"+args[1]+"");
 			}
 		};
 		borrowin = new BorrowIn(borrowdata,bookfield,peoplefield){
 			public void push(String args[]){
 				borrowfield.push(args);
+				showMsg("用户"+args[1]+"已"+args[0]+"《"+args[3]+"》1本");
 			}
 		};
 		page2=new Page(title[1]){
@@ -135,6 +138,7 @@ public class Window extends Frame{
 					case "退出":
 						System.exit(DISPOSE_ON_CLOSE);
 					case "版本":
+						look();
 						new Toast(win,"版本信息","<html><b>Version 1.0</b><br/>作者:曾柏滔</html>",30,120);
 						break;
 					case "更多":
@@ -144,6 +148,7 @@ public class Window extends Frame{
 						bookdata.save();
 						peopledata.save();
 						borrowdata.save();
+						look();
 						break;
 					default:
 						System.out.println(evt);

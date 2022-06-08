@@ -42,6 +42,7 @@ public class PeopleIn extends DataIn{
 		body.add(p1);
 		body.add(p2);
 		body.add(p3);
+		body.add(msgBox);
 	}
 	public String[] gainData() {
 		if(p1.flag&p2.flag&p3.flag){
@@ -49,5 +50,17 @@ public class PeopleIn extends DataIn{
 			return data;
 		}
 		return null;
+	}
+	public void clear(){
+		p1.clear();
+		p2.clear();
+		p3.clear();
+		showMsg("");
+	}
+	public void refresh(){
+		p1.cycle();
+		p2.cycle();
+		p3.cycle();
+		showMsg("");
 	}
 }

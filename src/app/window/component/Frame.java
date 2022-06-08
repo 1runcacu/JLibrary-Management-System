@@ -10,6 +10,7 @@ public class Frame extends JFrame{
 	protected CardLayout card = new CardLayout();
 	protected JPanel tree=new JPanel(new FlowLayout(FlowLayout.LEFT)),show=new JPanel(card),foot=new JPanel(new BorderLayout());
 	protected JSplitPane body,box;
+	protected JScrollPane jp=new JScrollPane(foot);
 	public Frame(String name){
 		super(name);
 		initFrame(true);
@@ -35,7 +36,6 @@ public class Frame extends JFrame{
 			mbox.setBackground(Color.WHITE);
 	        springLayout.putConstraint(NORTH, lb, 0, NORTH, mbox);
 	        springLayout.putConstraint(WEST, lb, 0, WEST, mbox);
-	        JScrollPane jp=new JScrollPane(foot);
 	        jp.setBorder(null);
 	        mbox.add(jp);
 	        springLayout.putConstraint(NORTH, jp, 20, NORTH, mbox);
@@ -62,5 +62,9 @@ public class Frame extends JFrame{
 	}
 	public void showPage(String name){
 		card.show(show,name);
+	}
+	public void look(){
+		JScrollBar jb = jp.getVerticalScrollBar();
+		jb.setValue(jb.getMaximum());
 	}
 }

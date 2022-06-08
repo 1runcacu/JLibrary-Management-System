@@ -73,6 +73,7 @@ public class BookIn extends DataIn{
 		body.add(p4);
 		body.add(p5);
 		body.add(p6);
+		body.add(msgBox);
 	}
 	public String[] gainData() {
 		if(p1.flag&p2.flag&p3.flag&p4.flag&p5.flag&p6.flag){
@@ -80,5 +81,23 @@ public class BookIn extends DataIn{
 			return data;
 		}
 		return null;
+	}
+	public void clear(){
+		p1.clear();
+		p2.clear();
+		p3.clear();
+		p4.clear();
+		p5.clear();
+		p6.clear();
+		showMsg("");
+	}
+	public void refresh(){
+		p1.cycle();
+		p2.cycle();
+		p3.cycle();
+		p4.cycle();
+		p5.cycle();
+		p6.cycle();
+		showMsg("");
 	}
 }

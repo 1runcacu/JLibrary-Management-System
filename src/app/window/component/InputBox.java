@@ -103,11 +103,11 @@ public class InputBox extends JPanel{
 		}
 	}
 	public static boolean legalKey(String str){
-		String pattern = "^(?!_)(?!.*?_$)[a-zA-Z0-9_~!£¡¡¤-£¬..|#@?¡¢£¿\u4e00-\u9fa5]+$";
+		String pattern = "^(?!_)(?!.*?_$)[a-zA-Z0-9_ ~!£¡¡¤-£¬..|#@?¡¢£¿\u4e00-\u9fa5]+$";
 		return Pattern.matches(pattern, str);
 	}
 	public static boolean legalName(String str){
-		String pattern = "^(?!_)(?!.*?_$)[a-zA-Z_\u4e00-\u9fa5]+$";
+		String pattern = "^(?!_)(?!.*?_$)[a-zA-Z _\u4e00-\u9fa5]+$";
 		return Pattern.matches(pattern, str);
 	}
 	public static boolean legalNum(String str){
@@ -116,6 +116,10 @@ public class InputBox extends JPanel{
 	}
 	public void check(String str){
 		
+	}
+	public void clear(){
+		action("hint");
+		$check("");
 	}
 	public String getText(){
 		String data = words.getText();

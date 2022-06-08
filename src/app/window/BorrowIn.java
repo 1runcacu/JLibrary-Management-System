@@ -30,6 +30,9 @@ public class BorrowIn extends DataIn{
 				}else{
 					tik("error","这里只能填写['借书','还书']哦~");
 				}
+				if(p2!=null){
+					p2.cycle();
+				}
 			}
 			public void ref(String data) {
 				if(data.equals("借书")){
@@ -47,22 +50,40 @@ public class BorrowIn extends DataIn{
 						ppn=peoplename.get(0);
 						tik("pass","√ "+ppn);
 					}else{
+						ppn="";
 						tik("error","× 查无此人");
 					}
+				}
+				if(p3!=null){
+					p3.cycle();
 				}
 			}
 		};
 		p3 = new InputBox("书籍id"){
 			public void check(String str){
+				if(ppn.equals("")){
+					tik("?","? 尚未搜索到人员借阅记录");
+					return;
+				}
 				if(!str.equals("")){
 					bookname = bkd.src.rowOf("id",str);
 					if(bookname!=null){
 						bkn=bookname.get(0);
 						count=Integer.parseInt(bookname.get(2));
-						if(count>0){
-							tik("pass","√ 《"+bkn+"》，还剩下"+count+"本哦~");
-						}else {
-							tik("error","× 《"+bkn+"》，已没有库存了哦~");
+						String act = p1.getText(),book = p2.getText();
+						if(act.equals("还书")){
+							String mbk = peoplename.get(4).toString();
+							if(Pattern.matches(".*"+str+".*",mbk)){
+								tik("pass","√ 允许归还《"+bkn+"》");
+							}else{
+								tik("undefinded","* 你并没有借《"+bkn+"》");
+							}
+						}else{
+							if(count>0){							
+								tik("pass","√ 《"+bkn+"》，还剩下"+ count +"本哦~");
+							}else {
+								tik("error","× 《"+bkn+"》，已没有库存了哦~");
+							}
 						}
 					}else{
 						tik("error","× 查无此书");
@@ -73,6 +94,7 @@ public class BorrowIn extends DataIn{
 		body.add(p1);
 		body.add(p2);
 		body.add(p3);
+		body.add(msgBox);
 	}
 	public String[] gainData() {
 		if(p1.flag&p2.flag&p3.flag){
@@ -119,5 +141,17 @@ public class BorrowIn extends DataIn{
 			return data;
 		}
 		return null;
+	}
+	public void clear(){
+		p1.clear();
+		p2.clear();
+		p3.clear();
+		showMsg("");
+	}
+	public void refresh(){
+		p1.cycle();
+		p2.cycle();
+		p3.cycle();
+		showMsg("");
 	}
 }
